@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+I used javascript because it was quick and easy. <br />
+Ofcourse it wont work well with big integers without some BigInteger class used, but could be changed if that was a requirement.<br />
+
+
+</head>
+<script type="text/javascript">
+function calc()
+{
+    var pop = parseInt(document.getElementById("population").value);
+    var maxtens=document.getElementById("population").value.length;
+    var tens=maxtens;
+    var twentysixes=0;
+    var minpop=Math.pow(10,maxtens);
+    for(var i=0;i<=maxtens;i++){
+        var ts = Math.ceil(Math.log(pop/(Math.pow(10,i)))/Math.log(26));
+        var newpop=Math.pow(10,i)*Math.pow(26,ts);
+        if(minpop>newpop&&newpop>=pop){
+            tens=i;
+            twentysixes=ts;
+            minpop=Math.pow(10,i)*Math.pow(26,ts);
+        }
+    }
+    document.getElementById("ans").innerHTML="<b>Answer</b><br />Population: "+pop+"<br />Pattern: "+tens +" Numbers and "+twentysixes +" letters<br />Total Plates: "+minpop+" <br />Excess Plates: "+(minpop-pop) +" <br />";
+}
+</script>
+<body>
+
+<h1>Question 3</h1>
+Enter Population size: <input type="text" id="population" /><br />
+
+<button type="button" onclick="calc()">Find Pattern</button><br /><br />
+<p id="ans"></p>
+
+
+
+</body>
+</html> 
