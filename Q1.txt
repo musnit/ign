@@ -1,0 +1,47 @@
+Well, first consider the size of the bus. I would guess a bus is about 10m long, 4m wide,
+and 2m high(inside), though i'm probably better at guessing actual seat sizes/row lengths, 
+because thats what I've actually seen more often when in the bus. So to guess the size
+of the bus I'd rather consider dividing up the bus into smaller areas which I can guess
+more accurately, and then working out the total size. I can probably make a decent guess
+at the size of a bus seat and the size of the seat area above/below/infront of it, so I'll use 
+the volume of a seat, and the volume of the space above/below a seat as the 2 basic
+units to work out how big the bus is.
+
+Bus:
+10xNormal Rows (consisting of 2 seat, 2 seat space, 1 aisle space)
+1x Back Row (consisting of 2.5 seat, 2.5 seat space)
+1x Driver Space
+
+I'd guess the aisle space is about half a seat space.
+The driver area is the about the size of 3 rows, with 1 seat, 1 dashboard/gears/steering wheel area (size of about 4 seats stacked on top of eachother), 
+and the extra staircase space (about half a seat space).
+
+So then the bus:
+10xNormal Rows(2.5 seat space - 2 seats)
+1xBack Row(2.5 seat space - 2.5 seats)
+Driver Space (8 seat space - 5seats)
+Total: 35.5 seat space - 27.5 seats
+
+Then, guessing at the actual seat space I'd say is 1m long, 0.5m wide and  2m high.
+The seat itself, a cusion under you+cusion behind you, 1m long, 0.5m wide, 0.2m high for each cusion.
+So:
+Seat space = 1 cubic metre
+Seat =  0.1cubic metres
+Total bus volume = 32.75 cubic metres
+
+Then, the size of a ping pong ball - well, I'm from South Africa and I'd assume sizes
+are the same here as in US, which is about half my finger length and looks like about
+0.04m long - so with volume=(4/3)*pi*radius^3, has volume 33.51cc.
+
+So howmany balls fit in the bus? 
+32.75 cubic metres/33.51cc = 977310
+
+And this is all assuming that the balls are there, fitting in the bus, not considering
+how to actually get them in the bus stacked in way that doesn't waste any space, or if
+it's possible to actually stack them without wasting space...but that should hopefully
+not affect the answer too much so I think it's fine not to worry about for now.
+
+...oh and if the question is not just limited to thought I could google for answers/more
+accurate measurements amd assumptions about the bus and seats and ball size etc, or actually
+go measure it in real life...and if you think I'm wrong, maybe we just have wierd small school buses in this country :P.
+
