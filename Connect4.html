@@ -1,0 +1,99 @@
+<html>
+<head>
+<h1>Connect 4!<br/></h1>
+</head>
+<body>
+I'm still busy working on this now (11:30am PDT), but will go to sleep soon and finish it tomorrow!<br/>
+Latest version is Connect4.html at https://github.com/musnit/ign<br/><br/>
+<canvas id="canvas" width="700" height="700"></canvas>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+var mousex;
+var posy=50;
+var block=false;
+function circle(x,y,r) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI*2, true);
+  ctx.closePath();
+}
+
+function init() {
+  ctx = $('#canvas')[0].getContext("2d");
+  WIDTH = $("#canvas").width()
+  HEIGHT = $("#canvas").height()
+  intervalId = setInterval(draw, 10);
+  return intervalId;
+  }
+
+function clear() {
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+function draw() {
+  clear();
+  for (i=0; i <= 600; i+=100) {
+     for (j=100; j <= 600; j+=100) {
+     circle(i+50,j+50,50);   
+	   ctx.stroke();
+     }
+  }
+  ctx.fillStyle = "red";
+  circle(mousex,posy,50);   
+  ctx.fill();
+  if(block==true){
+	posy+=5;
+  }
+  if(atbottom(posy)){
+  //update model
+  posy=50;
+  block==false;
+  }
+}
+
+function atbottom(posy){
+	if (posy==650){
+		return true;
+	}
+	return false;
+}
+function onMouseMove(evt) {
+  if(block==true){
+  
+  }
+  else if (evt.pageX > 0 && evt.pageX < 100) {
+    mousex = 50;
+  }
+  else if (evt.pageX > 100 && evt.pageX < 200) {
+    mousex = 150;
+  }
+  else if (evt.pageX > 200 && evt.pageX < 300) {
+    mousex = 250;
+  }
+  else if (evt.pageX > 300 && evt.pageX < 400) {
+    mousex = 350;
+  }
+  else if (evt.pageX > 400 && evt.pageX < 500) {
+    mousex = 450;
+  }
+  else if (evt.pageX > 500 && evt.pageX < 600) {
+    mousex = 550;
+  }
+  else if (evt.pageX > 600 && evt.pageX < 700) {
+    mousex = 650;
+  }
+}
+
+function clicked(evt){
+  if (block==false){
+	block=true;
+	
+  }
+}
+
+$(document).mousemove(onMouseMove);
+$("#canvas").click(clicked);
+init();
+  
+</script>
+</body>
+</html>
