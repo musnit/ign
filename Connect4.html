@@ -13,6 +13,7 @@ var posy=50;
 var block=false;
 var model = new Array(7);
 var bottom=5;
+var player=1;
 for(var i=0;i<7;i++){
 	model[i]=new Array(6);
 	for (var j=0;j<6;j++){
@@ -56,17 +57,43 @@ function draw() {
 		}
 	 }
   }
+  if(player==1){
   ctx.fillStyle = "red";
+  }
+  else{
+  ctx.fillStyle = "blue";
+  }
   circle(mousex,posy,50);   
   ctx.fill();
   if(block==true){
 	posy+=5;
   }
   if(atbottom(posy)){
-  model[(mousex-50)/100][bottom]=1;
-  posy=50;
-  block=false;
+	model[(mousex-50)/100][bottom]=player;
+	posy=50;
+	if(player==1){
+		aigo();
+	}
+	else{
+	  player=1;
+	  block=false;
+	}
   }
+}
+
+function aigo(){
+
+  player=2;
+  var x = choosemove();
+  mousex=(100*x)+50;
+
+  block=false;
+  clicked();
+}
+
+function choosemove(){
+	//check there is a move left...
+	return Math.floor((Math.random()*7));
 }
 
 function atbottom(posy){
@@ -102,7 +129,7 @@ function onMouseMove(evt) {
   }
 }
 
-function clicked(evt){
+function clicked(){
   if (block==false&&model[(mousex-50)/100][0]!=1&&model[(mousex-50)/100][0]!=1){
 	block=true;
 	var j=0;
