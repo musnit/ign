@@ -105,13 +105,14 @@ function onMouseMove(evt) {
 function clicked(evt){
   if (block==false){
 	block=true;
-	for(var j=0;j<6;j++){
-		if (model[(mousex-50)/100][j]==1||model[(mousex-50)/100][j]==2){
-			bottom=j-1;
-		}
+	var j=0;
+	while(j<6&&!(model[(mousex-50)/100][j]==1||model[(mousex-50)/100][j]==2)){
+		j++;
+	}
+		bottom=j-1;
 	}
   }
-}
+
 
 $(document).mousemove(onMouseMove);
 $("#canvas").click(clicked);
