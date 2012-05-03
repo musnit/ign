@@ -103,13 +103,13 @@ function onMouseMove(evt) {
 }
 
 function clicked(evt){
-  if (block==false){
+  if (block==false&&model[(mousex-50)/100][0]!=1&&model[(mousex-50)/100][0]!=1){
 	block=true;
 	var j=0;
 	while(j<6&&!(model[(mousex-50)/100][j]==1||model[(mousex-50)/100][j]==2)){
 		j++;
 	}
-		bottom=j-1;
+	bottom=j-1;
 	}
   }
 
