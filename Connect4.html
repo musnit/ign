@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+Connect 4!
+
+</head>
+
+<body>
+
+<h1>Connect 4!</h1>
+  <div id=curso></div><br/>
+
+<canvas id="connect" width="700" height="700"></canvas>
+
+<script type="text/javascript">
+var c=document.getElementById("connect");
+var ctx=c.getContext("2d");
+
+for(var i=50;i<=650;i+=100){
+	for(var j=100;j<=600;j+=100){
+		ctx.strokeStyle="purple";
+		ctx.beginPath();
+		ctx.arc(i,j,50,0,Math.PI*2,true);
+		ctx.closePath();
+		ctx.stroke();
+	}
+}
+function onMouseOver(Sender,e){
+   var x = e.x;
+   var y = e.y;
+   document.getElementById('curso').innerHTML = "<img src='ff.jpg' />";        
+   }
+ </script>
+  <img src="ff.jpg" id='cursor' onmousemove="onMouseOver(this,event)">
+</body>
+</html> 

@@ -1,0 +1,68 @@
+#header {
+	border-bottom:1px solid #000;
+}
+#header ul {
+		clear:left;
+		float:left;
+		width:100%;
+		list-style:none;
+		margin:10px 0 0 0;
+		padding:0;
+	}
+	#header ul li {
+		display:inline;
+		list-style:none;
+		margin:0;
+		padding:0;
+	}
+	#header ul li a {
+		display:block;
+		float:left;
+		margin:0 0 0 1px;
+		padding:3px 10px;
+		text-align:center;
+		background:#eee;
+		color:#000;
+		text-decoration:none;
+		position:relative;
+		left:15px;
+		line-height:1.3em;
+	}
+	#header ul li a:hover {
+		background:#369;
+		color:#fff;
+	}
+	#header ul li a.active,
+	#header ul li a.active:hover {
+		color:#fff;
+		background:#000;
+		font-weight:bold;
+	}
+	/*menu taken from matthewjamestaylor.com */
+.col1,
+.col2,
+.col3 {
+	float:left;
+	position:relative;
+	padding:0 0 1em 0;	
+}
+.col1 {
+	width:49%;	
+	left:25%	
+}
+.col2 {
+	width:24%;
+	left:-49%
+}
+.col3 {
+	width:24%;	
+	left:2%
+	
+}
+
+#footer {
+	clear:both;
+	float:left;
+	width:100%;
+	border-top:1px solid #000;
+}
