@@ -11,6 +11,15 @@ Latest version is Connect4.html at https://github.com/musnit/ign<br/><br/>
 var mousex;
 var posy=50;
 var block=false;
+var model = new Array(7);
+var bottom=5;
+for(var i=0;i<7;i++){
+	model[i]=new Array(6);
+	for (var j=0;j<6;j++){
+		model[i][j]=0;
+	}
+} 
+
 function circle(x,y,r) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI*2, true);
@@ -31,11 +40,21 @@ function clear() {
 
 function draw() {
   clear();
-  for (i=0; i <= 600; i+=100) {
-     for (j=100; j <= 600; j+=100) {
-     circle(i+50,j+50,50);   
-	   ctx.stroke();
-     }
+  for (i=0; i < 7; i++) {
+     for (j=0; j < 6; j++) {
+		circle((i*100)+50,((j+1)*100)+50,50);   
+     	if(model[i][j]==0){
+			ctx.stroke();
+		}
+		else if(model[i][j]==1){
+		ctx.fillStyle = "red";
+		ctx.fill();
+		}
+		else if(model[i][j]==2){
+		ctx.fillStyle = "blue";
+		ctx.fill();
+		}
+	 }
   }
   ctx.fillStyle = "red";
   circle(mousex,posy,50);   
@@ -44,14 +63,14 @@ function draw() {
 	posy+=5;
   }
   if(atbottom(posy)){
-  //update model
+  model[(mousex-50)/100][bottom]=1;
   posy=50;
-  block==false;
+  block=false;
   }
 }
 
 function atbottom(posy){
-	if (posy==650){
+	if (posy==150+bottom*100){
 		return true;
 	}
 	return false;
@@ -86,7 +105,11 @@ function onMouseMove(evt) {
 function clicked(evt){
   if (block==false){
 	block=true;
-	
+	for(var j=0;j<6;j++){
+		if (model[(mousex-50)/100][j]==1||model[(mousex-50)/100][j]==2){
+			bottom=j-1;
+		}
+	}
   }
 }
 
