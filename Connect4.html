@@ -1,154 +1,209 @@
 <html>
 <head>
-<h1>Connect 4!<br/></h1>
 </head>
 <body>
+<h1>Connect 4!<br/></h1>
 I'm still busy working on this now (11:30am PDT), but will go to sleep soon and finish it tomorrow!<br/><br/>
 To fix:<br/>
-AI is retarded/just picks randomly - make it cleverer<br/>
+AI is just picks randomly - make it cleverer<br/>
 AI doesn't care if a column is full it still tries to move there and bugs<br/>
-Win/Draw conditions not yet checked<br/><br/>
 Latest version is Connect4.html at https://github.com/musnit/ign<br/><br/>
 <canvas id="canvas" width="700" height="700" style="border: 1px solid black"></canvas>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
 var mousex;
-var posy=50;
-var block=false;
+var posy = 50;
+var block = false;
 var model = new Array(7);
-var bottom=5;
-var player=1;
-for(var i=0;i<7;i++){
-	model[i]=new Array(6);
-	for (var j=0;j<6;j++){
-		model[i][j]=0;
-	}
-} 
+var bottom = 5;
+var player = 1;
+for (var i = 0; i < 7; i++) {
+    model[i] = new Array(6);
+    for (var j = 0; j < 6; j++) {
+        model[i][j] = 0;
+    }
+}
 
-function circle(x,y,r) {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI*2, true);
-  ctx.closePath();
+function circle(x, y, r) {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2, true);
+    ctx.closePath();
 }
 
 function init() {
-  ctx = $('#canvas')[0].getContext("2d");
-  WIDTH = $("#canvas").width()
-  HEIGHT = $("#canvas").height()
-  intervalId = setInterval(draw, 10);
-  return intervalId;
-  }
+    ctx = $('#canvas')[0].getContext("2d");
+    WIDTH = $("#canvas").width()
+    HEIGHT = $("#canvas").height()
+    intervalId = setInterval(draw, 10);
+    return intervalId;
+}
 
 function clear() {
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+function text(text, x, y) {
+	ctx.fillStyle = '#f00';
+	ctx.font = 'italic bold 30px sans-serif';
+	ctx.textBaseline = 'bottom';
+	ctx.fillText(text, x, y);
 }
 
 function draw() {
-  clear();
-  for (i=0; i < 7; i++) {
-     for (j=0; j < 6; j++) {
-		circle((i*100)+50,((j+1)*100)+50,50);   
-     	if(model[i][j]==0){
-			ctx.stroke();
-		}
-		else if(model[i][j]==1){
-		ctx.fillStyle = "red";
-		ctx.fill();
-		}
-		else if(model[i][j]==2){
-		ctx.fillStyle = "blue";
-		ctx.fill();
-		}
-	 }
-  }
-  if(player==1){
-  ctx.fillStyle = "red";
-  }
-  else{
-  ctx.fillStyle = "blue";
-  }
-  circle(mousex,posy,50);   
-  ctx.fill();
-  if(block==true){
-	posy+=5;
-  }
-  if(atbottom(posy)){
-	model[(mousex-50)/100][bottom]=player;
-	posy=50;
-	if(player==1){
-		aigo();
-	}
-	else{
-	  player=1;
-	  block=false;
-	}
-  }
+    clear();
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 6; j++) {
+            circle((i * 100) + 50, ((j + 1) * 100) + 50, 50);
+            if (model[i][j] == 0) {
+                ctx.stroke();
+            }
+            else if (model[i][j] == 1) {
+                ctx.fillStyle = "red";
+                ctx.fill();
+            }
+            else if (model[i][j] == 2) {
+                ctx.fillStyle = "blue";
+                ctx.fill();
+            }
+        }
+    }
+    if (player == 1) {
+        ctx.fillStyle = "red";
+    }
+    else {
+        ctx.fillStyle = "blue";
+    }
+    circle(mousex, posy, 50);
+    ctx.fill();
+    if (block == true) {
+        posy += 5;
+    }
+    if (atbottom(posy)) {
+        model[(mousex - 50) / 100][bottom] = player;
+        posy = 50;
+        var win = inarow(4);
+        if (win == 1) {
+			clearInterval(loop);
+			//clear();
+			text("You win! Refresh to play again",100,300);
+        }
+		else if (win == 2) {
+			clearInterval(loop);
+			//clear();
+			text("You lose! Refresh to play again",100,300);
+        }
+        if (player == 1) {
+            aigo();
+        }
+        else {
+            player = 1;
+            block = false;
+        }
+    }
 }
 
-function aigo(){
+function inarow(num) {
 
-  player=2;
-  var x = choosemove();
-  mousex=(100*x)+50;
-
-  block=false;
-  clicked();
+	var rowcount=[0,0,0,0,0,0];
+	var rowlast=[0,0,0,0,0,0];
+	var colcount=[0,0,0,0,0,0,0];
+	var collast=[0,0,0,0,0,0,0];
+	var diag1count=[0,0,0,0,0,0,0,0,0,0,0,0];
+	var diag1last=[0,0,0,0,0,0,0,0,0,0,0,0];
+	var diag2count=[0,0,0,0,0,0,0,0,0,0,0,0];
+	var diag2last=[0,0,0,0,0,0,0,0,0,0,0,0];
+	for (var i = 0; i < 7; i++) {
+        for (var j = 0; j < 6; j++) {
+            if (model[i][j] == rowlast[j] && model[i][j] != 0) {
+                rowcount[j]++;
+            }
+			else{
+			    rowcount[j]=0;
+			}
+            if (rowcount[j] == num-1) {
+                return model[i][j];
+            }
+			rowlast[j]=model[i][j];
+			if (model[i][j] == collast[i] && model[i][j] != 0) {
+                colcount[i]++;
+            }
+			else{
+			    colcount[i]=0;
+			}            
+			if (colcount[i] == num-1) {
+                return model[i][j];
+            }
+			collast[i]=model[i][j];
+			if (model[i][j] == diag1last[i+j] && model[i][j] != 0) {
+                diag1count[i+j]++;
+            }
+			else{
+			diag1count[i+j]=0;
+			}
+			if (diag1count[i+j] == num-1) {
+                return model[i][j];
+            }
+			diag1last[i+j]=model[i][j];
+			if (model[i][j] == diag2last[i+6-j] && model[i][j] != 0) {
+                diag2count[i+6-j]++;
+            }
+			else{
+			diag2count[i+6-j]=0;
+			}
+			if (diag2count[i+6-j] == num-1) {
+                return model[i][j];
+            }
+			diag2last[i+6-j]=model[i][j];
+        }
+    }
+    return 0;
 }
 
-function choosemove(){
-	//check there is a move left...
-	return Math.floor((Math.random()*7));
+function aigo() {
+
+    player = 2;
+    var x = choosemove();
+    mousex = (100 * x) + 50;
+
+    block = false;
+    clicked();
 }
 
-function atbottom(posy){
-	if (posy==150+bottom*100){
-		return true;
-	}
-	return false;
+function choosemove() {
+    //check there is a move left...
+    return Math.floor((Math.random() * 7));
 }
+
+function atbottom(posy) {
+    if (posy == 150 + bottom * 100) {
+        return true;
+    }
+    return false;
+}
+
 function onMouseMove(evt) {
-  if(block==true){
-  
-  }
-  else if (evt.pageX > 0 && evt.pageX < 100) {
-    mousex = 50;
-  }
-  else if (evt.pageX > 100 && evt.pageX < 200) {
-    mousex = 150;
-  }
-  else if (evt.pageX > 200 && evt.pageX < 300) {
-    mousex = 250;
-  }
-  else if (evt.pageX > 300 && evt.pageX < 400) {
-    mousex = 350;
-  }
-  else if (evt.pageX > 400 && evt.pageX < 500) {
-    mousex = 450;
-  }
-  else if (evt.pageX > 500 && evt.pageX < 600) {
-    mousex = 550;
-  }
-  else if (evt.pageX > 600 && evt.pageX < 700) {
-    mousex = 650;
-  }
+    if (block == false) {
+        if (evt.pageX > 0 && evt.pageX < 700) {
+            mousex = Math.floor(evt.pageX / 100) * 100 + 50;
+        }
+    }
 }
 
-function clicked(){
-  if (block==false&&model[(mousex-50)/100][0]!=1&&model[(mousex-50)/100][0]!=1){
-	block=true;
-	var j=0;
-	while(j<6&&!(model[(mousex-50)/100][j]==1||model[(mousex-50)/100][j]==2)){
-		j++;
-	}
-	bottom=j-1;
-	}
-  }
+function clicked() {
+    if (block == false && model[(mousex - 50) / 100][0] != 1 && model[(mousex - 50) / 100][0] != 1) {
+        block = true;
+        var j = 0;
+        while (j < 6 && !(model[(mousex - 50) / 100][j] == 1 || model[(mousex - 50) / 100][j] == 2)) {
+            j++;
+        }
+        bottom = j - 1;
+    }
+}
 
 
 $(document).mousemove(onMouseMove);
 $("#canvas").click(clicked);
-init();
-  
+var loop = init();
 </script>
 </body>
 </html>
