@@ -3,10 +3,8 @@
 </head>
 <body>
 <h1>Connect 4!<br/></h1>
-I'm still busy working on this now (11:30am PDT), but will go to sleep soon and finish it tomorrow!<br/><br/>
-To fix:<br/>
-AI is just picks randomly - make it cleverer<br/>
-AI doesn't care if a column is full it still tries to move there and bugs<br/>
+I'm still busy working on this now, will be done later today!<br/><br/>
+To fix: AI is just picks randomly - make it cleverer<br/><br/>
 Latest version is Connect4.html at https://github.com/musnit/ign<br/><br/>
 <canvas id="canvas" width="700" height="700" style="border: 1px solid black"></canvas>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -17,11 +15,9 @@ var block = false;
 var model = new Array(7);
 var bottom = 5;
 var player = 1;
+var full = "0123456";
 for (var i = 0; i < 7; i++) {
-    model[i] = new Array(6);
-    for (var j = 0; j < 6; j++) {
-        model[i][j] = 0;
-    }
+    model[i] = [0,0,0,0,0,0];
 }
 
 function circle(x, y, r) {
@@ -84,14 +80,19 @@ function draw() {
         var win = inarow(4);
         if (win == 1) {
 			clearInterval(loop);
-			//clear();
+			clear();
 			text("You win! Refresh to play again",100,300);
         }
 		else if (win == 2) {
 			clearInterval(loop);
-			//clear();
+			clear();
 			text("You lose! Refresh to play again",100,300);
         }
+		else if (full==""){
+			clearInterval(loop);
+			clear();
+			text("It's a draw! Refresh to play again",100,300);
+		}
         if (player == 1) {
             aigo();
         }
@@ -170,8 +171,7 @@ function aigo() {
 }
 
 function choosemove() {
-    //check there is a move left...
-    return Math.floor((Math.random() * 7));
+    return full.charAt(Math.floor((Math.random() * full.length)));
 }
 
 function atbottom(posy) {
@@ -190,16 +190,18 @@ function onMouseMove(evt) {
 }
 
 function clicked() {
-    if (block == false && model[(mousex - 50) / 100][0] != 1 && model[(mousex - 50) / 100][0] != 1) {
+    if (block == false && model[(mousex - 50) / 100][0] == 0) {
         block = true;
         var j = 0;
-        while (j < 6 && !(model[(mousex - 50) / 100][j] == 1 || model[(mousex - 50) / 100][j] == 2)) {
+        while (j < 6 && model[(mousex - 50) / 100][j] == 0) {
             j++;
         }
         bottom = j - 1;
+		if(j-1==0){
+			full=full.replace(""+(mousex - 50)/100,"");
+		}
     }
 }
-
 
 $(document).mousemove(onMouseMove);
 $("#canvas").click(clicked);
